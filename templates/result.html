@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .result-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .result-text {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .home-button,
+        .doctor-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .home-button:hover,
+        .doctor-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+
+        <div class="result-container">
+            <h2 class="result-title">The predicted class is:</h2>
+            <p class="result-text">{{ predicted_class }}</p>
+            <form action="/" method="get">
+                <button type="submit" class="home-button">Home</button>
+            </form>
+            <form action="chat/" method="get">
+                <button type="submit" class="doctor-button">Ask for Doctor</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

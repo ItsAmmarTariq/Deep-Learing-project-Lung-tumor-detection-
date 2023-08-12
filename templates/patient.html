@@ -1,0 +1,99 @@
+{% load static%}
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+   <meta charset="utf-8">
+   <title>Patient</title>
+
+
+   <style>
+      @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      
+
+      }
+
+      body {
+         background-image: url("{% static 'img/doct.jpg' %}");
+         background-repeat: no-repeat;
+
+
+         background-size: cover;
+      }
+
+      html,
+      body {
+         display: grid;
+         height: 100%;
+         place-items: center;
+         text-align: center;
+      }
+
+      .container {
+         background-color: rgb(0, 0, 0);
+         margin: 319px;
+         margin-right: 808px;
+         padding-top: 144px;
+         margin-left: 95px;
+         margin-top: 240px;
+         border-radius: 18px;
+         color:white;
+         
+         background: linear-gradient(45deg, black, transparent);
+      }
+
+      .icon {
+         font-size: 100px;
+         color: #9658fe;
+      }
+
+      .choose {
+         margin-left: 150px;
+      }
+   </style>
+
+</head>
+
+
+<body>
+
+   {% if user.is_authenticated %}
+   <h1>Welcome {{ fname }}!</h1>
+{% else %}
+   <p>Please log in to see your account information.</p>
+{% endif %}
+
+
+   <div class="container">
+      <div class="wrapper">
+         <div class="contnt">
+            <div class="icon">
+               <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+
+         </div>
+        
+       <h3 STYLE="align-items: center"> Upload an Image  to see your Result</h3>
+      <form action="data_processing" method="post" enctype="multipart/form-data">
+         {% csrf_token %}
+         <label for="my_file">Choose a file:</label>
+         <input type="file" name="my_file" id="my_file">
+         <button type="submit">Predict</button>
+     </form>
+     
+
+
+   </div>
+   <script>
+
+   </script>
+</body>
+
+</html>

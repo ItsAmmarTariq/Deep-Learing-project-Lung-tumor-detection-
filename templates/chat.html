@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatBot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      margin-right: 10px;
+    }
+
+    #myBtn {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #chatLog {
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .user-message {
+      background-color: #2196F3;
+      color: #fff;
+    }
+
+    .bot-message {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Retrieve the CSRF token
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    $(document).ready(function() {
+      // Attach CSRF token to all AJAX requests
+      $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+          if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+          }
+        }
+      });
+
+      $("#myBtn").click(function() {
+        var user_input = $("#myInput").val();
+        $('#myInput').val("");
+        $('#chatLog').append('<div class="message user-message">You: ' + user_input + '</div>');
+
+        $.ajax({
+          type: 'POST',
+          url: '/chat/process/',
+          data: {
+            'user-input': user_input
+          },
+          success: function(data) {
+            var response = data.response;
+            $('#chatLog').append('<div class="message bot-message">DoctorBot: ' + response + '</div>');
+          },
+          error: function(xhr, status, error) {
+            console.log(xhr.responseText);
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>ChatBot</h1>
+    <div id="chatLog"></div>
+    <div>
+      <input type="text" id="myInput" placeholder="Enter your message">
+      <button id="myBtn">Send</button>
+    </div>
+  </div>
+</body>
+</html>
